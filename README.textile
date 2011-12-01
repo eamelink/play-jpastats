@@ -1,0 +1,6 @@
+h1. Play Framework JPA Statistics module
+
+This module counts the number of JPA queries executed for each request.
+
+The documentation is in /documentation/manual/home.textile
+

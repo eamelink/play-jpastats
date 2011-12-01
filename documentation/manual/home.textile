@@ -1,0 +1,57 @@
+h1. JPA Stats module
+
+This tiny module helps you determine how many database queries were used for a page. It contains tags that you can use to output the number of queries on the page, and it can optionally output the same information as headers in the HTTP response too. This is especially useful to determine the amount of queries for an Ajax request.
+
+h2. Usage
+
+Add the jpastats module to your @dependencies.yml@:
+
+bc. require:
+  - play -> jpastats
+
+Then, run @play dependencies@ and you're good to go!
+
+h2. Tags
+
+@#{jpastats.databaseQueries /}@
+
+This will output the number of database queries for this request.
+
+@#{jpastats.hibernateQueries /}@
+
+This will output the number of explicit Hibernate queries. So the amount of times you did an HQL query or called Model.find etcetera.
+
+@#{jpastats.fetchedCollections /}@
+
+The number of collections Hibernate fetched in this request.
+
+@#{jpastats.fetchedEntities /}@
+
+The number of entities Hibernate fetched.
+
+h3. Note
+
+Be aware that the values are calculated when the tag is processed. So if you put the tag at the top of the page, and lower in the page your template causes more collections or entities to be lazily fetched, the number will be off.
+
+h2. Getting the statistics programmatically
+
+The @JPAStatsPlugin@ has the following public static getters:
+
+bc. JPAStatsPlugin.getDatabaseQueryCount();
+JPAStatsPlugin.getHibernateQueryCount();
+JPAStatsPlugin.getCollectionFetchCount();
+JPAStatsPlugin.getEntityFetchCount();
+
+h2. Headers
+
+If you add @jpastats.header=true@ to your @application.conf@, this module will also output the information in the headers of the response. Especially useful to determine the amount of queries that an Ajax request used.
+
+h2. Configuration settings
+
+h3. jpastats.enabled
+
+Enable statistics gathering. It is recommended to set to @false@ this if you don't use the plugin, for example in production. Default is @true@
+
+h3. jpastats.headers
+
+Enable outputting of statistics in response headers. Recommended to set to @false@ in production. Defaults to @false@.

@@ -1,0 +1,4 @@
+self: play -> jpastats 0.9
+
+require:
+    - play
